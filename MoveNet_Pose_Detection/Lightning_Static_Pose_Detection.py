@@ -3,9 +3,6 @@ import tensorflow_hub as hub
 import numpy as np 
 import cv2 
 
-
-
-
 # Load the MoveNet model from TensorFlow Hub 
 movenet = hub.load("https://tfhub.dev/google/movenet/singlepose/lightning/4")
 
