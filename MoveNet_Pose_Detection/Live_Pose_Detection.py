@@ -23,16 +23,24 @@ def detect_pose_live():
 
     while cap.isOpened():
         ret, frame = cap.read()
+        #frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)) 
+        #frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT)) 
+
+        #print(f"Frame width: {frame_width}") # -> ouptut: 640
+        #print(f"Frame hieght: {frame_height}") # -> output: 480
         if not ret:
             print("Failed to capture frame. Exiting...")
             break
 
         # Convert frame to RGB
         frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-
+        
         # Resize for MoveNet input
-        frame_resized = tf.image.resize_with_pad(tf.expand_dims(frame_rgb, axis=0), 192, 192)
-        frame_np = frame_resized.numpy().astype(np.int32)
+        # tf.expand_dims(frame_rgb, axis = 0) adds an extra dimension at the beginning of the tensor turning the image into a batch of size 1
+        # tf.image.resize_with_pad() resizes the given image to specified dimensions while conserving the aspect ratio
+        frame_resized = tf.image.resize_with_pad(tf.expand_dims(frame_rgb, axis=0), 192, 192)  
+        #print(f"Resized to: {tf.shape(frame_resized)}") # -> output: [1 192 192 3]
+        frame_np = frame_resized.numpy().astype(np.int32) # numpy() converts tensor into a numpy array of shape (192, 192, 3)
 
         # Perform inference
         outputs = movenet.signatures["serving_default"](tf.constant(frame_np))
