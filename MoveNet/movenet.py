@@ -507,7 +507,7 @@ def run_inference(movenet, image, crop_region, crop_size):
         keypoints_with_scores[0, 0, idx, 1]) / image_width
   return keypoints_with_scores
 
-image_path = r"/content/Poses/handstand4.png"
+image_path = r"C:\Users\kchao\Downloads\1-am-hand-stand-anna-web-large.jpg"
 image = tf.io.read_file(image_path)
 image = tf.image.decode_jpeg(image)
 
