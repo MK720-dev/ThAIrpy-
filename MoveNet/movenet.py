@@ -1,8 +1,9 @@
-import tensorflow as tf
-import tensorflow_hub as hub
+# Importing necessary libraries 
+import tensorflow as tf # Used for running deep learning models 
+import tensorflow_hub as hub # Helps load pre-trained models from Tensorflow Hub
 from tensorflow_docs.vis import embed
-import numpy as np
-import cv2
+import numpy as np # Provides support for numerical operations, particularly useful for handling image arrays 
+import cv2 # Reading video frames, processing images and drawing keypoints 
 import requests 
 
 # Import matplotlib libraries
@@ -19,6 +20,10 @@ from PIL import Image
 #@title Helper functions for visualization
 
 # Dictionary that maps from joint names to keypoint indices.
+# MoveNet models output the keypoints in the following order:
+# [nose, left eye, right eye, left ear, right ear, left shoulder, 
+# right shoulder, left elbow, right elbow, left wrist, right wrist, 
+# left hip, right hip, left knee, right knee, left ankle, right ankle].
 KEYPOINT_DICT = {
     'nose': 0,
     'left_eye': 1,
@@ -81,38 +86,60 @@ def _keypoints_and_edges_for_display(keypoints_with_scores,
       * the coordinates of all skeleton edges of all detected entities;
       * the colors in which the edges should be plotted.
   """
+  # Initialize lists to store keypoints, edges, and colors 
   keypoints_all = []
   keypoint_edges_all = []
   edge_colors = []
+
+  # Get the number of detected instances from the input shape 
+  # (i.e., 1 in our case corresponding to the person in frame )
   num_instances, _, _, _ = keypoints_with_scores.shape
+
+  # Iterate over all detected instances 
   for idx in range(num_instances):
+    # Extract x-coordinates of keypoints (normalized between 0 and 1)
     kpts_x = keypoints_with_scores[0, idx, :, 1]
+    print(kpts_x)
+    # Extract y-coordinates of keypoints (normalized between 0 and 1)
     kpts_y = keypoints_with_scores[0, idx, :, 0]
+    # Extract confidence scores of keypoints 
     kpts_scores = keypoints_with_scores[0, idx, :, 2]
+    # Convert normalized coordinates to absolute pixel values 
     kpts_absolute_xy = np.stack(
         [width * np.array(kpts_x), height * np.array(kpts_y)], axis=-1)
+    # Filter keypoints by confidence score threshhold 
     kpts_above_thresh_absolute = kpts_absolute_xy[
         kpts_scores > keypoint_threshold, :]
+    # Store valid keypoints for this instance 
     keypoints_all.append(kpts_above_thresh_absolute)
 
+    # Iterate over defined edges (skeleton connections) in the body 
     for edge_pair, color in KEYPOINT_EDGE_INDS_TO_COLOR.items():
+      # Ensure both keypoints in the edges have high confidence 
       if (kpts_scores[edge_pair[0]] > keypoint_threshold and
           kpts_scores[edge_pair[1]] > keypoint_threshold):
+        # Get absolute pixel coordinates of start and end points of the edge 
         x_start = kpts_absolute_xy[edge_pair[0], 0]
         y_start = kpts_absolute_xy[edge_pair[0], 1]
         x_end = kpts_absolute_xy[edge_pair[1], 0]
         y_end = kpts_absolute_xy[edge_pair[1], 1]
+        # Create a line segment representing the edge 
         line_seg = np.array([[x_start, y_start], [x_end, y_end]])
+        # Store the edge and its corresponding 
         keypoint_edges_all.append(line_seg)
         edge_colors.append(color)
+  # If keypoints were detected concatenate them into a single array 
   if keypoints_all:
     keypoints_xy = np.concatenate(keypoints_all, axis=0)
   else:
+    # If no keypoints were found return an empty array 
     keypoints_xy = np.zeros((0, 17, 2))
 
+  # If edges were detected, stack them into an array 
   if keypoint_edges_all:
     edges_xy = np.stack(keypoint_edges_all, axis=0)
   else:
+    # If no edges were found, return an empty array 
     edges_xy = np.zeros((0, 2, 2))
   return keypoints_xy, edges_xy, edge_colors
 
@@ -310,34 +337,7 @@ else:
         # Output is a [1, 1, 17, 3] tensor.
         keypoints_with_scores = outputs['output_0'].numpy()
         return keypoints_with_scores
-'''    
-# Load the input image.
-image_path = r"Poses/backflip.jpg"
-image = tf.io.read_file(image_path)
-image = tf.image.decode_jpeg(image)
 
-# Convert the image to RGB if it has an alpha channel
-if image.shape[-1] == 4:
-    image = image[:,:,:3]  # Slice the image to keep only the first 3 channels (RGB)
-
-# Resize and pad the image to keep the aspect ratio and fit the expected size.
-input_image = tf.expand_dims(image, axis=0)
-input_image = tf.image.resize_with_pad(input_image, input_size, input_size)
-
-# Run model inference.
-keypoints_with_scores = movenet(input_image)
-
-# Visualize the predictions with image.
-display_image = tf.expand_dims(image, axis=0)
-display_image = tf.cast(tf.image.resize_with_pad(
-    display_image, 1280, 1280), dtype=tf.int32)
-output_overlay = draw_prediction_on_image(
-    np.squeeze(display_image.numpy(), axis=0), keypoints_with_scores)
-
-plt.figure(figsize=(5, 5))
-plt.imshow(output_overlay)
-_ = plt.axis('off')
-'''
 #@title Cropping Algorithm
 
 # Confidence score to determine whether a keypoint prediction is reliable.
@@ -507,7 +507,7 @@ def run_inference(movenet, image, crop_region, crop_size):
         keypoints_with_scores[0, 0, idx, 1]) / image_width
   return keypoints_with_scores
 
-image_path = r"C:\Users\kchao\Downloads\1-am-hand-stand-anna-web-large.jpg"
+image_path = r"C:\Users\kchao\Downloads\person.jpg"
 image = tf.io.read_file(image_path)
 image = tf.image.decode_jpeg(image)
 
