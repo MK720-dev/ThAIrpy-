@@ -99,7 +99,6 @@ def _keypoints_and_edges_for_display(keypoints_with_scores,
   for idx in range(num_instances):
     # Extract x-coordinates of keypoints (normalized between 0 and 1)
     kpts_x = keypoints_with_scores[0, idx, :, 1]
-    print(kpts_x)
     # Extract y-coordinates of keypoints (normalized between 0 and 1)
     kpts_y = keypoints_with_scores[0, idx, :, 0]
     # Extract confidence scores of keypoints 
@@ -507,7 +506,58 @@ def run_inference(movenet, image, crop_region, crop_size):
         keypoints_with_scores[0, 0, idx, 1]) / image_width
   return keypoints_with_scores
 
-image_path = r"C:\Users\kchao\Downloads\person.jpg"
+#def process_image(image_path, model, input_size):
+# Define the function to process a single image
+def process_image(image_path):
+    # Read the image file
+    image  = tf.io.read_file(image_path)
+    # Decode the JPEG image into a tensor
+    image = tf.image.decode_jpeg(image)
+
+    # Get image shape (height, width, channels)
+    image_height, image_width, _ = image.shape
+    # Initialize the crop region based in the image's height and width
+    crop_region = init_crop_region(image_height, image_width)
+
+    # Convert RGBA to RGB if the image has an alpha channel (transparency)
+    if image.shape[-1] == 4:
+        image = image[:,:,:3]  # Slice the image to keep only the first 3 channels (RGB)
+
+    # Resize and pad the image to keep the aspect ratio and fit the expected size.
+    input_image = tf.expand_dims(image, axis=0)
+    #preserve images aspect ratio
+
+    input_image = tf.image.resize_with_pad(input_image, input_size, input_size)
+
+    # Run pose estimation on the image to get keypoints and scores
+    keypoints_with_scores = run_inference(
+        movenet, image, crop_region,
+        [input_size, input_size] # Resize input image for the model
+        )
+    print(type(keypoints_with_scores))
+    # Get the new crop region based on the keypoints (optional)
+    crop_region = determine_crop_region(
+        keypoints_with_scores, image_height, image_width)
+
+    # Prepare the visualization by drawing the keypoints on the image (Optional)
+    output_image = draw_prediction_on_image(
+        image.numpy().astype(np.int32),
+        keypoints_with_scores, crop_region=None,
+        close_figure=True, output_image_height=300
+        )
+
+    # Display the output image with keypoints (Optional)
+    #plt.figure(figsize=(5, 5))
+    plt.imshow(output_image)
+    plt.axis('off') # Hide axes for cleaner display
+    plt.show()
+
+    return keypoints_with_scores
+
+
+'''
+# use raw string if need be
+image_path = "C:\\Users\\kchao\\OneDrive\\Documents\\Dossier_Malek\\ThAIrpy-\\MoveNet\\Pose_example_dataset\\handstand.jpg"
 image = tf.io.read_file(image_path)
 image = tf.image.decode_jpeg(image)
 
@@ -537,4 +587,4 @@ output_image = output_images[0]
 # Display the output image.
 plt.imshow(output_image)
 plt.axis('off')  # Optional: to hide axes
-plt.show()
+plt.show()'''
