@@ -4,7 +4,7 @@ import tensorflow_hub as hub # Helps load pre-trained models from Tensorflow Hub
 from tensorflow_docs.vis import embed
 import numpy as np # Provides support for numerical operations, particularly useful for handling image arrays 
 import cv2 # Reading video frames, processing images and drawing keypoints 
-import requests 
+import requests # Used for making HTTP requests 
 
 # Import matplotlib libraries
 from matplotlib import pyplot as plt

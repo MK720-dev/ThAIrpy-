@@ -1,9 +1,9 @@
-import os
-import shutil 
-import csv 
-import random 
-import numpy as np
-from movenet import process_image
+import os # Provides functions for interacting with the operating system
+import shutil # Allows for file and directory operations like copying, moving, and deleting files
+import csv # Enables reading from and writing to CSV (comma-separated values) files
+import random  # Provides functions for generating random numbers, shuffling lists, etc.
+import numpy as np # Imports NumPy, a library for numerical computing, including arrays and mathematical operations
+from movenet import process_image # Imports the 'process_image' function from the 'movenet' module (used for pose estimation)
 
 # Funcrion to split a Poses folder into training and testing datasets
 def split_dataset(input_folder, output_folder, train_ratio=0.6, seed=42):
