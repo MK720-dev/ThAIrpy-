@@ -58,6 +58,38 @@ ThAIrpy tackles key issues in physical therapy, including:
 - Mobile AR SDKs
 
 ---
+## Current Progress
+The project has successfully implemented an early-stage motion tracking system using TensorFlow MoveNet for human pose estimation. Here’s what’s been built:
+
+**Pose Detection Pipeline**
+- Integrated MoveNet Lightning/Thunder models (TensorFlow Hub and TFLite formats).
+
+- Supported both real-time and static image analysis.
+
+- Applied dynamic cropping to focus on relevant body areas.
+
+- Converted model output into pixel-accurate keypoints.
+
+**Visualization**
+- Developed a custom drawing function to overlay skeleton keypoints and edges on input images using matplotlib.
+
+- Added support for animated GIF output for multiple frames (with imageio).
+
+**Technical Capabilities**
+- Confidence filtering of keypoints (threshold-based).
+
+- Skeleton edge rendering with distinct colors.
+
+- Adaptive crop region computation based on torso visibility and pose.
+
+- Support for JPEG image processing with fallback for alpha channels (RGBA → RGB).
+
+- Initial support for progress tracking and pose correction (framework in place).
+
+**Testing**
+- Verified pose estimation accuracy using sample static images.
+
+- Output tested using matplotlib displays and preview animations.
 
 ## Status
 
