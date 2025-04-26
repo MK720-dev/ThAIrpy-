@@ -59,7 +59,11 @@ ThAIrpy tackles key issues in physical therapy, including:
 
 ---
 ## Current Progress
-The project has successfully implemented an early-stage motion tracking system using TensorFlow MoveNet for human pose estimation. Here’s what’s been built:
+The project has successfully implemented an early-stage motion tracking system using TensorFlow MoveNet for human pose estimation. All the used scripts are in the Movenet folder. Here’s what’s been built so far:
+
+
+### `movenet.py`: Pose Estimation & Visualization
+The `movenet.py` script implements the core pose detection pipeline using TensorFlow's MoveNet model:
 
 **Pose Detection Pipeline**
 - Integrated MoveNet Lightning/Thunder models (TensorFlow Hub and TFLite formats).
@@ -90,6 +94,73 @@ The project has successfully implemented an early-stage motion tracking system u
 - Verified pose estimation accuracy using sample static images.
 
 - Output tested using matplotlib displays and preview animations.
+
+### `preprocessor.py`: Dataset Preparation Pipeline
+
+The `preprocessor.py` script enables transformation of raw pose image datasets into a format suitable for training machine learning models:
+
+**Dataset Splitting**
+- Automatically divides images into **training** and **testing** folders
+  
+- Supports a customizable split ratio (default is 60% training)
+  
+- Maintains pose category structure for supervised classification tasks
+
+**Keypoint Extraction**
+- Extracts 17 keypoints per image (x, y coordinates + confidence scores)
+  
+- Uses MoveNet to infer keypoint data per image
+
+**CSV Generation**
+- Generates `train.csv` and `test.csv` files
+  
+- Each row contains:
+   - Pose category label
+   - Image filename
+   - Flattened keypoint values (x1, y1, c1, ..., x17, y17, c17)
+
+This pipeline creates a clean and organized dataset ready for pose classification, exercise recognition, or movement analysis.
+
+---
+
+## 🛠 Tech Stack
+
+- TensorFlow / TensorFlow Lite
+- TensorFlow Hub (MoveNet models)
+- OpenCV & Matplotlib
+- Python (NumPy, ImageIO, PIL)
+- Optional: ARCore / ARKit integration (planned)
+
+---
+
+## 🧪 Demo Resource
+
+Example motion tracking prototype:  
+[Arduino + Python OpenCV Tracker](https://github.com/kensunjaya/arduino-motion-tracking-with-py-cv2)
+
+---
+
+## 📌 Status
+
+**Currently in prototyping and preprocessing phase.**
+
+---
+
+## 📫 Contact
+
+For questions or collaboration inquiries, feel free to open an issue or contact the maintainer.
+Let me know if you want me to generate a version that includes an image, badge, or sample output!
+
+
+
+
+
+
+
+
+
+
+
   
 ---
 
