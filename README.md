@@ -15,7 +15,7 @@ ThAIrpy tackles key issues in physical therapy, including:
 
 ---
 
-## 🔧 Key Features
+## Key Features
 
 ### For Patients
 - **AR-Guided Exercises** – Visual cues help ensure proper form.
@@ -58,7 +58,7 @@ ThAIrpy tackles key issues in physical therapy, including:
 
 ---
 ## Current Progress
-The project has successfully implemented an early-stage motion tracking system using TensorFlow MoveNet for human pose estimation. All the used scripts are in the Movenet folder. Here’s what’s been built so far:
+The project has successfully implemented an early-stage motion tracking system using TensorFlow MoveNet for human pose estimation. All the used scripts are in the **'MoveNet'** folder. Here’s what’s been built so far:
 
 
 ### `movenet.py`: Pose Estimation & Visualization
