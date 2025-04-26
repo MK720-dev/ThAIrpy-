@@ -90,6 +90,8 @@ The project has successfully implemented an early-stage motion tracking system u
 - Verified pose estimation accuracy using sample static images.
 
 - Output tested using matplotlib displays and preview animations.
+  
+---
 
 ## Status
 
@@ -97,7 +99,7 @@ The project has successfully implemented an early-stage motion tracking system u
 
 ---
 
-## 📫 Contact
+## Contact
 
 For questions or collaborations, feel free to reach out via GitHub issues.
 
