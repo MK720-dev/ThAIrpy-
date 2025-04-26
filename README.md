@@ -135,37 +135,6 @@ This pipeline creates a clean and organized dataset ready for pose classificatio
 
 ---
 
-## Demo Resource
-
-Example motion tracking prototype:  
-[Arduino + Python OpenCV Tracker](https://github.com/kensunjaya/arduino-motion-tracking-with-py-cv2)
-
----
-
-## Status
-
-**Currently in prototyping and preprocessing phase.**
-
----
-
-## Contact
-
-For questions or collaboration inquiries, feel free to open an issue or contact the maintainer.
-Let me know if you want me to generate a version that includes an image, badge, or sample output!
-
-
-
-
-
-
-
-
-
-
-
-  
----
-
 ## Status
 
 **Currently in prototype and research phase.**
