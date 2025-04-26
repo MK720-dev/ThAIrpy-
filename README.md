@@ -50,12 +50,11 @@ ThAIrpy tackles key issues in physical therapy, including:
 
 ## Technologies
 
-- Python, OpenCV
-- Mediapipe / OpenPose
-- ARCore / ARKit
-- TensorFlow / PyTorch (planned AI model integration)
-- JavaScript / React (front-end interfaces)
-- Mobile AR SDKs
+- TensorFlow / TensorFlow Lite
+- TensorFlow Hub (MoveNet models)
+- OpenCV & Matplotlib
+- Python (NumPy, ImageIO, PIL)
+- Optional: ARCore / ARKit integration (planned)
 
 ---
 ## Current Progress
