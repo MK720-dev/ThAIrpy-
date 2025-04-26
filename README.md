@@ -1,6 +1,6 @@
 # ThAIrpy – AI and AR-Enhanced Physical Therapy Project
 
-https://img.shields.io/badge/Author-Malek_Kchaou-yellow
+![](https://img.shields.io/badge/Author-Jack_Gerety-yellow) ![](https://img.shields.io/badge/Author-Malek_Kchaou-yellow) ![](https://img.shields.io/badge/Python-3.10.0-blue) 
 
 
 ThAIrpy is a research-driven project aimed at enhancing physical therapy using Artificial Intelligence (AI) and Augmented Reality (AR). The goal is to develop an immersive, data-driven system that assists both patients and therapists through real-time feedback, guided exercises, and smart progress tracking.
