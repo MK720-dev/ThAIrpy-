@@ -137,7 +137,7 @@ This pipeline creates a clean and organized dataset ready for pose classificatio
 
 ## Status
 
-**Currently in prototype and research phase.**
+**Currently in progress.**
 
 ---
 
